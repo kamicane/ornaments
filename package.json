@@ -5,5 +5,8 @@
   "main": "index.js",
   "repository": "https://github.com/kamicane/ornaments.git",
   "author": "Valerio Proietti <kamicane@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "async-sequence": "^2.0.3"
+  }
 }

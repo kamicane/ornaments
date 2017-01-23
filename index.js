@@ -1,6 +1,7 @@
 'use strict'
 
 const { defineProperty } = Object
+const sequence = require('async-sequence')
 
 function getDescriptorKey (descriptor) {
   if ('get' in descriptor) return 'get'
@@ -21,6 +22,13 @@ exports.readonly = function (target, key, descriptor) {
 
 exports.noconf = function (target, key, descriptor) {
   descriptor.configurable = false
+  return descriptor
+}
+
+exports.sequence = function (target, key, descriptor) {
+  let dk = getDescriptorKey(descriptor)
+  if (!dk) return descriptor
+  descriptor[dk] = sequence(descriptor[dk])
   return descriptor
 }
 
