@@ -1,6 +1,6 @@
 {
   "name": "ornaments",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "promise-centric class decorators",
   "main": "index.js",
   "repository": "https://github.com/kamicane/ornaments.git",
