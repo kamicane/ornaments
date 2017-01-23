@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "promise-centric class decorators",
   "main": "index.js",
-  "repository": "https://gist.github.com/5360fb4d4d5c0438b379a9392babd1bd.git",
+  "repository": "https://github.com/kamicane/ornaments.git",
   "author": "Valerio Proietti <kamicane@gmail.com>",
   "license": "MIT"
 }
