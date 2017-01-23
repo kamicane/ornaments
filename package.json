@@ -1,0 +1,9 @@
+{
+  "name": "ornaments",
+  "version": "0.0.1",
+  "description": "promise-centric class decorators",
+  "main": "index.js",
+  "repository": {},
+  "author": "Valerio Proietti <kamicane@gmail.com>",
+  "license": "MIT"
+}
