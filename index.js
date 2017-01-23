@@ -27,6 +27,7 @@ exports.noconf = function (target, key, descriptor) {
 exports.memoize = function (target, key, descriptor) {
   let dk = getDescriptorKey(descriptor)
   if (!dk) return descriptor
+
   let mk = `_${key}`
   let method = descriptor[dk]
 
@@ -51,6 +52,7 @@ exports.memoize = function (target, key, descriptor) {
 exports.immediate = function (target, key, descriptor) {
   let dk = getDescriptorKey(descriptor)
   if (!dk) return descriptor
+
   let mk = `_${key}`
   let method = descriptor[dk]
 
