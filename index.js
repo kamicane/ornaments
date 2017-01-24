@@ -26,25 +26,26 @@ exports.noconf = function (target, key, descriptor) {
 }
 
 exports.sequence = function (target, key, descriptor) {
-  let dk = getDescriptorKey(descriptor)
+  const dk = getDescriptorKey(descriptor)
   if (!dk) return descriptor
   descriptor[dk] = sequence(descriptor[dk])
   return descriptor
 }
 
 exports.memoize = function (target, key, descriptor) {
-  let dk = getDescriptorKey(descriptor)
+  const dk = getDescriptorKey(descriptor)
   if (!dk) return descriptor
 
-  let mk = `_${key}`
-  let method = descriptor[dk]
+  const mk = `_${key}`
+  const method = descriptor[dk]
 
-  descriptor[dk] = function () {
-    if (mk in this) return this[mk]
+  descriptor[dk] = function (control) {
+    const sk = control == null ? mk : `${mk}_${control}`
+    if (sk in this) return this[sk]
 
-    let result = method.call(this)
+    const result = method.call(this)
 
-    defineProperty(this, mk, {
+    defineProperty(this, sk, {
       configurable: true,
       enumerable: false,
       writable: true,
@@ -58,23 +59,24 @@ exports.memoize = function (target, key, descriptor) {
 }
 
 exports.immediate = function (target, key, descriptor) {
-  let dk = getDescriptorKey(descriptor)
+  const dk = getDescriptorKey(descriptor)
   if (!dk) return descriptor
 
-  let mk = `_${key}`
-  let method = descriptor[dk]
+  const mk = `_${key}`
+  const method = descriptor[dk]
 
-  descriptor[dk] = function () {
-    if (mk in this) return this[mk]
+  descriptor[dk] = function (control) {
+    const sk = control == null ? mk : `${mk}_${control}`
+    if (sk in this) return this[sk]
 
-    let result = new Promise((resolve) => {
+    const result = new Promise((resolve) => {
       setImmediate(() => {
-        delete this[mk]
+        delete this[sk]
         resolve(method.call(this))
       })
     })
 
-    defineProperty(this, mk, {
+    defineProperty(this, sk, {
       configurable: true,
       enumerable: false,
       writable: true,
@@ -88,20 +90,21 @@ exports.immediate = function (target, key, descriptor) {
 }
 
 exports.reduce = function (target, key, descriptor) {
-  let dk = getDescriptorKey(descriptor)
+  const dk = getDescriptorKey(descriptor)
   if (!dk) return descriptor
 
-  let mk = `_${key}_promise`
-  let method = descriptor[dk]
+  const mk = `_${key}_promise`
+  const method = descriptor[dk]
 
-  descriptor[dk] = function () {
-    let queue = this[mk]
+  descriptor[dk] = function (control) {
+    const sk = control == null ? mk : `${mk}_${control}`
+    const queue = this[sk]
 
-    let factory = () => method.call(this)
+    const factory = () => method.call(this)
 
-    let result = queue ? queue.then(factory) : factory()
+    const result = queue ? queue.then(factory) : factory()
 
-    defineProperty(this, mk, {
+    defineProperty(this, sk, {
       configurable: true,
       enumerable: false,
       writable: true,
